@@ -1,3 +1,9 @@
+    public function pdf($id)
+    {
+        $organisme = Organisme::findOrFail($id);
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.organisme', compact('organisme'));
+        return $pdf->download('certificat-organisme.pdf');
+    }
 <?php
 
 namespace App\Http\Controllers;

@@ -19,6 +19,17 @@ class UserController extends Controller
         return view('users.create');
     }
 
+    public function pdf(User $user)
+    {
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.document', compact('user'));
+        return $pdf->download('certificat-usuari.pdf');
+    }
+
+    public function show(User $user)
+    {
+        return view('users.show', compact('user'));
+    }
+
     public function store(Request $request)
     {
         User::create([
