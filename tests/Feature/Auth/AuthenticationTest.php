@@ -9,7 +9,9 @@ test('login screen can be rendered', function () {
 });
 
 test('users can authenticate using the login screen', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create([
+        'role' => 'gestor',
+    ]);
 
     $response = $this->post('/login', [
         'email' => $user->email,
@@ -23,12 +25,13 @@ test('users can authenticate using the login screen', function () {
 test('users can not authenticate with invalid password', function () {
     $user = User::factory()->create();
 
-    $this->post('/login', [
+    $response = $this->post('/login', [
         'email' => $user->email,
         'password' => 'wrong-password',
     ]);
 
     $this->assertGuest();
+    $response->assertRedirect('/validacio-error');
 });
 
 test('users can logout', function () {
@@ -38,4 +41,29 @@ test('users can logout', function () {
 
     $this->assertGuest();
     $response->assertRedirect('/');
+});
+
+test('consultors can view organismes but not users management', function () {
+    $consultor = User::factory()->create([
+        'role' => 'consultor',
+    ]);
+
+    $this->actingAs($consultor)
+        ->get('/organismes')
+        ->assertOk();
+
+    $response = $this->actingAs($consultor)->get('/users');
+
+    $response->assertRedirect('/login');
+    $this->assertGuest();
+});
+
+test('gestors can access users management', function () {
+    $gestor = User::factory()->create([
+        'role' => 'gestor',
+    ]);
+
+    $this->actingAs($gestor)
+        ->get('/users')
+        ->assertOk();
 });

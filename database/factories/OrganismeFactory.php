@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Organisme;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrganismeFactory extends Factory
 {
@@ -12,12 +12,12 @@ class OrganismeFactory extends Factory
     public function definition(): array
     {
         return [
-            'titol_llibre' => fake()->sentence(3),
-            'codi_oficial' => strtoupper(fake()->unique()->bothify('ORG###??')),
+            'titol_llibre' => fake()->sentence(4),
+            'codi_oficial' => strtoupper(fake()->unique()->bothify('ONU-###??')),
             'nom_organisme' => fake()->company(),
-            'tipus' => fake()->randomElement(['organisme','fons','programa','agència']),
-            'any_fundacio' => fake()->numberBetween(1900, 2024),
-            'pressupost_anual' => fake()->randomFloat(2, 100000, 10000000),
+            'tipus' => fake()->randomElement(['organisme', 'fons', 'programa', 'agencia']),
+            'any_fundacio' => fake()->numberBetween(1945, 2026),
+            'pressupost_anual' => fake()->randomFloat(2, 100000, 500000000),
             'pais_seu' => fake()->country(),
             'ciutat_seu' => fake()->city(),
             'data_creacio_registre' => fake()->date(),

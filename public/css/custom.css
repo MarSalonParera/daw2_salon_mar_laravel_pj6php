@@ -1,9 +1,8 @@
 body {
-    background: #f8fafc;
     font-family: 'Segoe UI', Arial, sans-serif;
     color: #222;
+    background: radial-gradient(circle at top, #eef2f7, #dbe4ee);
 }
-
 h1, h2, h3 {
     color: #1a237e;
     margin-bottom: 1rem;
@@ -23,28 +22,28 @@ h1, h2, h3 {
 }
 .btn-primary {
     background: #1976d2;
-    color: #fff;
+    color: #ffffff;
 }
 .btn-primary:hover {
     background: #1565c0;
 }
 .btn-warning {
     background: #ffb300;
-    color: #fff;
+    color: #22ab56;
 }
 .btn-warning:hover {
     background: #ffa000;
 }
 .btn-danger {
     background: #e53935;
-    color: #fff;
+    color: #22ab56;
 }
 .btn-danger:hover {
     background: #b71c1c;
 }
 .btn-info {
     background: #0288d1;
-    color: #fff;
+    color: #22ab56;
 }
 .btn-info:hover {
     background: #0277bd;
@@ -59,26 +58,26 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 1.5rem;
-    background: #fff;
+    background: #22ab56;
     box-shadow: 0 2px 8px #0001;
 }
 th, td {
-    border: 1px solid #e0e0e0;
+    border: 1px solid #22ab56;
     padding: 0.6rem 1rem;
     text-align: left;
 }
 th {
-    background: #e3f2fd;
+    background: #22ab56;
     color: #1976d2;
 }
 tr:nth-child(even) {
-    background: #f1f8ff;
+    background: #22ab56;
 }
 
 .container {
     max-width: 900px;
     margin: 2rem auto;
-    background: #fff;
+    background: #22ab56;
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 2px 12px #0002;

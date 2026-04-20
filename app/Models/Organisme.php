@@ -25,4 +25,12 @@ class Organisme extends Model
         'actiu',
         'web_oficial'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'actiu' => 'boolean',
+            'data_creacio_registre' => 'date',
+        ];
+    }
 }

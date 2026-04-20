@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Organisme;
+use Illuminate\Database\Seeder;
 
 class OrganismeSeeder extends Seeder
 {
     public function run(): void
     {
-        Organisme::factory()->count(5)->create();
+        Organisme::factory()->count(10)->create();
     }
 }

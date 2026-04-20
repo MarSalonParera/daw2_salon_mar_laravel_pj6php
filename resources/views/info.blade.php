@@ -1,27 +1,31 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ONU</title>
-</head>
+@extends('layouts.site')
 
-<body>
+@section('title', 'Informacio')
 
-<header style="text-align:center; padding:20px; background-color:#f9f9f9; border-bottom:1px solid #ddd;">
-    <a href="{{ url('/') }}">
-        <x-application-logo style="width:150px; display:block; margin:0 auto;" />
-    </a>
-</header>
+@section('content')
+    <section class="page-grid">
+        <div class="card">
+            <h1>Informacio de l aplicacio</h1>
+            <p>
+                L objectiu d aquesta aplicacio es gestionar la taula principal d organismes i la taula d usuaris de manera separada segons el rol autenticat.
+            </p>
+        </div>
 
-<p>Pàgina informativa de l'aplicació web ONU</p>
+        <div class="card">
+            <h2>Com iniciar sessio</h2>
+            <p>Accedeix a la pagina de validacio, introdueix el teu correu electronic i la teva contrasenya.</p>
+            <p>Si ets gestor veuras el dashboard de gestio. Si ets consultor veuras el dashboard de consulta.</p>
+        </div>
 
-<ol>
-    <li>Administrador: CRUD organismes</li>
-    <li>Bàsic: visualitzar organismes</li>
-</ol>
-
-<a href="{{ url('/') }}">Inici</a>
-
-</body>
-</html>
+        <div class="card">
+            <h2>Com tancar sessio</h2>
+            <p>
+                Quan estiguis autenticat, fes clic sobre el teu nom d usuari a la part superior dreta per executar el logout.
+            </p>
+            <div class="actions">
+                <a class="button secondary" href="{{ route('home') }}">Tornar a inici</a>
+                <a class="button" href="{{ route('login') }}">Anar a validacio</a>
+            </div>
+        </div>
+    </section>
+@endsection

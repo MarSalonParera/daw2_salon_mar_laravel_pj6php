@@ -1,89 +1,98 @@
-    public function pdf($id)
-    {
-        $organisme = Organisme::findOrFail($id);
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.organisme', compact('organisme'));
-        return $pdf->download('certificat-organisme.pdf');
-    }
 <?php
 
 namespace App\Http\Controllers;
 
 use App\Models\Organisme;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class OrganismeController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        $organismes = Organisme::all();
+        $organismes = Organisme::orderBy('id')->get();
+
         return view('organismes.index', compact('organismes'));
     }
 
-    public function create()
+    public function create(): View
     {
         return view('organismes.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        $data = $request->validate([
-            'titol_llibre' => 'required',
-            'codi_oficial' => 'required|unique:organismes',
-            'nom_organisme' => 'required',
-            'tipus' => 'required',
-            'any_fundacio' => 'required',
-            'pressupost_anual' => 'required',
-            'pais_seu' => 'required',
-            'ciutat_seu' => 'required',
-            'data_creacio_registre' => 'required',
-            'nombre_empleats' => 'required',
-            'actiu' => 'required',
-            'web_oficial' => 'required'
-        ]);
+        $data = $request->validate($this->rules());
+        $data['actiu'] = $request->boolean('actiu');
 
         Organisme::create($data);
 
-        return redirect('/organismes');
+        return redirect()
+            ->route('organismes.index')
+            ->with('status', 'Organisme creat correctament.');
     }
 
-    public function show($id)
+    public function show(Organisme $organisme): View
     {
-        $organisme = Organisme::findOrFail($id);
         return view('organismes.show', compact('organisme'));
     }
 
-    public function edit($id)
+    public function edit(Organisme $organisme): View
     {
-        $organisme = Organisme::findOrFail($id);
         return view('organismes.edit', compact('organisme'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Organisme $organisme): RedirectResponse
     {
-        $data = $request->validate([
-            'titol_llibre' => 'required',
-            'codi_oficial' => 'required',
-            'nom_organisme' => 'required',
-            'tipus' => 'required',
-            'any_fundacio' => 'required',
-            'pressupost_anual' => 'required',
-            'pais_seu' => 'required',
-            'ciutat_seu' => 'required',
-            'data_creacio_registre' => 'required',
-            'nombre_empleats' => 'required',
-            'actiu' => 'required',
-            'web_oficial' => 'required'
-        ]);
+        $data = $request->validate($this->rules($organisme->id));
+        $data['actiu'] = $request->boolean('actiu');
 
-        Organisme::findOrFail($id)->update($data);
+        $organisme->update($data);
 
-        return redirect('/organismes');
+        return redirect()
+            ->route('organismes.index')
+            ->with('status', 'Organisme actualitzat correctament.');
     }
 
-    public function destroy($id)
+    public function destroy(Organisme $organisme): RedirectResponse
     {
-        Organisme::findOrFail($id)->delete();
+        $organisme->delete();
 
-        return redirect('/organismes');
+        return redirect()
+            ->route('organismes.index')
+            ->with('status', 'Organisme eliminat correctament.');
+    }
+
+    public function pdf(Organisme $organisme)
+    {
+        $pdf = Pdf::loadView('pdf.organisme', compact('organisme'));
+
+        return $pdf->download('organisme-'.$organisme->id.'.pdf');
+    }
+
+    private function rules(?int $organismeId = null): array
+    {
+        $uniqueRule = 'required|string|max:255|unique:organismes,codi_oficial';
+
+        if ($organismeId !== null) {
+            $uniqueRule .= ',' . $organismeId;
+        }
+
+        return [
+            'titol_llibre' => 'required|string|max:255',
+            'codi_oficial' => $uniqueRule,
+            'nom_organisme' => 'required|string|max:255',
+            'tipus' => 'required|in:organisme,fons,programa,agencia',
+            'any_fundacio' => 'required|integer|min:1800|max:2100',
+            'pressupost_anual' => 'required|numeric|min:0',
+            'pais_seu' => 'required|string|max:255',
+            'ciutat_seu' => 'required|string|max:255',
+            'data_creacio_registre' => 'required|date',
+            'nombre_empleats' => 'required|integer|min:0',
+            'actiu' => 'nullable|boolean',
+            'web_oficial' => 'required|url|max:255',
+        ];
     }
 }

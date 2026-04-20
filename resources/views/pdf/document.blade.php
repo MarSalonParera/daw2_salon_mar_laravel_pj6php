@@ -1,28 +1,35 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
-    <title>Document PDF</title>
+    <title>Certificat usuari</title>
     <style>
-        body { font-family: DejaVu Sans, sans-serif; margin: 40px; }
-        .header { text-align: center; margin-bottom: 30px; }
-        .logo { width: 120px; margin-bottom: 10px; }
-        .title { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
-        .content { font-size: 16px; }
-        .footer { margin-top: 40px; text-align: right; font-size: 12px; color: #888; }
+        body { font-family: DejaVu Sans, sans-serif; margin: 32px; color: #1f2933; }
+        .header, .footer { text-align: center; }
+        .header img { width: 90px; margin: 0 auto 12px; }
+        .panel { border: 1px solid #d8cdbc; border-radius: 12px; padding: 22px; margin-top: 24px; }
+        h1 { color: #0f5a5c; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        td { padding: 10px 0; border-bottom: 1px solid #eee3d2; }
+        .footer { margin-top: 24px; color: #55606d; font-size: 12px; }
     </style>
 </head>
 <body>
     <div class="header">
-        <img src="{{ public_path('imatges/logo-onu.png') }}" class="logo" alt="Logo ONU">
-        <div class="title">Certificat d'Usuari</div>
+        <img src="{{ public_path('imatges/logo-onu.png') }}" alt="Logo ONU">
+        <h1>Certificat d usuari autenticat</h1>
     </div>
-    <div class="content">
-        <p>Certifiquem que l'usuari <strong>{{ $user->name }}</strong> amb email <strong>{{ $user->email }}</strong> i rol <strong>{{ $user->role }}</strong> forma part de l'aplicació ONU.</p>
-        <p>Data d'emissió: <strong>{{ date('d/m/Y') }}</strong></p>
+
+    <div class="panel">
+        <p>Aquest document certifica les dades de l usuari autenticat dins de l aplicacio ONU.</p>
+        <table>
+            <tr><td><strong>ID</strong></td><td>{{ $user->id }}</td></tr>
+            <tr><td><strong>Nom</strong></td><td>{{ $user->name }}</td></tr>
+            <tr><td><strong>Role</strong></td><td>{{ ucfirst($user->role) }}</td></tr>
+            <tr><td><strong>Email</strong></td><td>{{ $user->email }}</td></tr>
+        </table>
     </div>
-    <div class="footer">
-        ONU - {{ config('app.name') }}
-    </div>
+
+    <div class="footer">Document generat el {{ now()->format('d/m/Y H:i') }}</div>
 </body>
 </html>
